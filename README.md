@@ -16,18 +16,81 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 ---
 ## Execution
 
-> TODO:
-> * How to run your program?
-> * What is the meaning of the executing command (both Mininet and Ryu controller)?
-> * Show the screenshot of using iPerf command in Mininet (both `SimpleController.py` and `controller.py`)
+1. Run topology with SimpleController.py
+   - Run topo.py in one terminal first
+      ```
+      # Change the directory into /Route_Configuration/src/
+      $ cd /root/Route_Configuration/src/
+      # Run the topo.py with Mininet
+      $ sudo mn --custom topo.py --topo topo --link tc --controller remote
+      ```
+   - Then, run SimpleController.py in another terminal
+      ```
+      # Change the directory into /Route_Configuration/src/
+      $ cd /root/Route_Configuration/src/
+      # Run the SimpleController.py with Ryu manager
+      $ sudo ryu-manager SimpleController.py --observe-links
+      ```
+2. Measure the bandwidth
+   - Use the following iPerf commands to measure the bandwidth in your network
+      ```
+      # Run in the iPerf command in Mininet CLI
+      mininet> h1 iperf -s -u -i 1 -p 5566 > ./out/result1 &
+      mininet> h2 iperf -c 10.0.0.1 -u -i 1 -p 5566
+      ```
+   - Leave topo.py in one terminal first
+      ```
+      # Leave the Mininet CLI
+      mininet> exit
+      ```
+   - Then, leave SimpleController.py in another terminal
+      ```
+      # Leave the Mininet CLI
+      Ctrl-z
+      # Make sure “RTNETLINK” is clean indeed
+      $ mn -c
+      ```
+   ![](/src/Capture1.PNG)
+3. Run topology with controller.py
+   - Run topo.py in one terminal first
+      ```
+      # Change the directory into /Route_Configuration/src/
+      $ cd /root/Route_Configuration/src/
+      # Run the topo.py with Mininet
+      $ sudo mn --custom topo.py --topo topo --link tc --controller remote
+      ```
+   - Then, run controller.py in another terminal
+      ```
+      # Change the directory into /Route_Configuration/src/
+      $ cd /root/Route_Configuration/src/
+      # Run the controller.py with Ryu manager
+      $ sudo ryu-manager controller.py --observe-links
+      ```
+4. Measure the bandwidth
+   - Use the following iPerf commands to measure the bandwidth in your network
+      ```
+      # Run in the iPerf command in Mininet CLI
+      mininet> h1 iperf -s -u -i 1 -p 5566 > ./out/result2 &
+      mininet> h2 iperf -c 10.0.0.1 -u -i 1 -p 5566
+      ```
+   - Leave topo.py in one terminal first
+      ```
+      # Leave the Mininet CLI
+      mininet> exit
+      ```
+   - Then, leave controller.py in another terminal
+      ```
+      # Leave the Mininet CLI
+      Ctrl-z
+      # Make sure “RTNETLINK” is clean indeed
+      $ mn -c
+      ```
+   ![](/src/Capture2.PNG)
 
 ---
 ## Description
 
 ### Tasks
-
-> TODO:
-> * Describe how you finish this work in detail
 
 1. Environment Setup
 
@@ -40,9 +103,6 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 5. Measurement
 
 ### Discussion
-
-> TODO:
-> * Answer the following questions
 
 1. Describe the difference between packet-in and packet-out in detail.
    
@@ -66,9 +126,6 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 ---
 ## References
 
-> TODO: 
-> * Please add your references in the following
-
 * **Ryu SDN**
     * [Ryubook Documentation](https://osrg.github.io/ryu-book/en/html/)
     * [Ryubook [PDF]](https://osrg.github.io/ryu-book/en/Ryubook.pdf)
@@ -90,10 +147,7 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 ---
 ## Contributors
 
-> TODO:
-> * Please replace "`YOUR_NAME`" and "`YOUR_GITHUB_LINK`" into yours
-
-* [YOUR_NAME](YOUR_GITHUB_LINK)
+* [林詩哲](https://github.com/lin130917)
 * [David Lu](https://github.com/yungshenglu)
 
 ---
