@@ -254,22 +254,33 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
    
 2. What is “table-miss” in SDN?
 
-   A table-miss flow entry in the flow table can specify how to process unmatched packets: options include dropping them, passing them    to another table or sending them to the controller over the control channel via packet-in messages
+   If a packet does not match a flow entry in a flow table, this is a table miss.
    
 3. Why is "`(app_manager.RyuApp)`" adding after the declaration of class in `controller.py`?
+
+   In order to inherit from app_manager.RyuApp.
    
 4. Explain the following code in `controller.py`.
     ```python
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     ```
+    This is a decorator for Ryu application to declare an event handler.This decorator tells Ryu when the decorated function should be called. The first argument of the decorator indicates which type of event this function should be called for. As you might expect, every time Ryu gets a packet_in message, this function is called. The second argument indicates the state of the switch. You probably want to ignore packet_in messages before the negotiation between Ryu and the switch is finished. Using 'MAIN_DISPATCHER' as the second argument means this function is called only after the negotiation completes.
 
 5. What is the meaning of “datapath” in `controller.py`?
+
+   the switch in the topology using OpenFlow
    
 6. Why need to set "`ip_proto=17`" in the flow entry?
+
+   
    
 7. Compare the differences between the iPerf results of `SimpleController.py` and `controller.py` in detail.
+
+   
    
 8. Which forwarding rule is better? Why?
+
+   
 
 ---
 ## References
