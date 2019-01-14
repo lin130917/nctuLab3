@@ -272,15 +272,15 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
    
 6. Why need to set "`ip_proto=17`" in the flow entry?
 
-   
+   Because UDP is better.
    
 7. Compare the differences between the iPerf results of `SimpleController.py` and `controller.py` in detail.
 
-   
+   In the result of controller.py, bandwidth is slightly better than the result of SimpleController.py and loss is less than the result of SimpleController.py .
    
 8. Which forwarding rule is better? Why?
 
-   controller.py Because loss is less than 
+   The forwarding rule of controller.py is better because loss is less than the result of Simplecontroller.py.
 
 ---
 ## References
