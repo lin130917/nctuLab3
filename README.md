@@ -32,7 +32,7 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
       $ sudo ryu-manager SimpleController.py --observe-links
       ```
 2. Measure the bandwidth
-   - Use the following iPerf commands to measure the bandwidth in your network
+   - Use the following iPerf commands to measure the bandwidth in the network
       ```
       # Run in the iPerf command in Mininet CLI
       mininet> h1 iperf -s -u -i 1 -p 5566 > ./out/result1 &
@@ -67,7 +67,7 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
       $ sudo ryu-manager controller.py --observe-links
       ```
 4. Measure the bandwidth
-   - Use the following iPerf commands to measure the bandwidth in your network
+   - Use the following iPerf commands to measure the bandwidth in the network
       ```
       # Run in the iPerf command in Mininet CLI
       mininet> h1 iperf -s -u -i 1 -p 5566 > ./out/result2 &
@@ -93,20 +93,168 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 ### Tasks
 
 1. Environment Setup
-
+   1. Join this lab on GitHub Classroom
+      - Click the following link to join this lab
+         - https://classroom.github.com/a/RHNMq4Td
+      - Go to our GitHub group to see the repository
+         - https://github.com/nctucn
+   2. Login to the container using SSH
+      ```
+      # Open the terminal to connect to the container
+      $ ssh -p 16203 root@140.113.195.69
+      Password: 616203
+      ```
+   3. Clone the GitHub repository
+      ```
+      # Clone the GitHub repository to “Route_Configuration”
+      $ git clone https://github.com/nctucn/lab3-lin130917.git Route_Configuration
+      ```
+   4. Run Mininet for testing
+      ```
+      # Start the service of Open vSwitch
+      $ sudo service openvswitch-switch start
+      # Run Mininet again!
+      $ sudo mn
+      ```
 2. Example of Ryu SDN
-
+   1. Login to the container in two terminals
+      ```
+      # Open the terminal to connect to the container
+      $ ssh -p 16203 root@140.113.195.69
+      Password: 616203
+      ```
+   2. Run Mininet topology
+      - Run SimpleTopo.py in one terminal first
+         ```
+         # Change the directory into
+         # /root/Route_Configuration/src/
+         $ cd /root/Route_Configuration/src/
+         # Run the SimpleTopo.py with Mininet
+         $ sudo mn --custom SimpleTopo.py --topo topo --link tc --controller remote
+         ```
+   3. Run Ryu manager with controller
+      - Run Ryu manager with controller
+         ```
+         # Change the directory into
+         # /root/Route_Configuration/src/
+         $ cd /root/Route_Configuration/src/
+         # Run the SimpleController.py with Ryu manager
+         $ sudo ryu-manager SimpleController.py --observelinks
+         ```
+   4. How to leave the Ryu controller?
+      - Leave SimpleTopo.py in one terminal first
+         ```
+         # Leave the Mininet CLI
+         mininet> exit
+         ```
+      - Then, leave SimpleController.py in another terminal
+         ```
+         # Leave the Mininet CLI
+         Ctrl-z
+         # Make sure “RTNETLINK” is clean indeed
+         $ mn -c
+         ```
 3. Mininet Topology
-
+   1. Build the topology via Mininet
+      - Duplicate the example code SimpleTopo.py and name it topo.py
+         ```
+         # Make sure the current directory is
+         # /root/Route_Configuration/src/
+         $ cp SimpleTopo.py topo.py
+         ```
+      - Add the constraints (e.g., bandwidth, delay, and loss rate) by /Route_Configuration/src/topo/ topo.png
+   2. Run Mininet topology and controller
+      - Run topo.py in one terminal first
+         ```
+         # Run the topo.py with Mininet
+         $ sudo mn --custom topo.py --topo topo --link tc --controller remote
+         ```
+      - Then, run SimpleController.py in another terminal
+         ```
+         # Run the SimpleController.py with Ryu manager
+         $ sudo ryu-manager SimpleController.py --observe-links
+         ```
 4. Ryu Controller
-
+   1. Trace the code of Ryu controller
+      - Trace the example code SimpleController.py and modify switch_feature_handler
+         ```
+         # Handle the initial feature of each switch
+         def switch_features_handler(self, ev):
+         ```
+   2. Write another Ryu controller
+      - Duplicate the example code SimpleController.py and name it controller.py
+      - Follow the the forwarding rules in the next slide and modify controller.py
+      - ONLY need to modify the method switch_features_handler(self, ev)
 5. Measurement
+   1. Run topology with SimpleController.py
+      - Run topo.py in one terminal first
+         ```
+         # Run the topo.py with Mininet
+         $ sudo mn --custom topo.py --topo topo --link tc --controller remote
+         ```
+      - Then, run SimpleController.py in another terminal
+         ```
+         # Run the SimpleController.py with Ryu manager
+         sudo ryu-manager SimpleController.py --observe-links
+         ```
+   2. Measure the bandwidth
+      - Use the following iPerf commands to measure the bandwidth in the network
+         ```
+         # Run in the iPerf command in Mininet CLI
+         mininet> h1 iperf -s -u -i 1 -p 5566 > ./out/result1 &
+         mininet> h2 iperf -c 10.0.0.1 -u -i 1 -p 5566
+         ```
+      - Leave topo.py in one terminal first
+         ```
+         # Leave the Mininet CLI
+         mininet> exit
+         ```
+      - Then, leave SimpleController.py in another terminal
+         ```
+         # Leave the Mininet CLI
+         Ctrl-z
+         # Make sure “RTNETLINK” is clean indeed
+         $ mn -c
+         ```
+   3. Run topology with controller.py
+      - Run topo.py in one terminal first
+         ```
+         $ sudo mn --custom topo.py --topo topo --link tc --controller remote
+         ```
+      - Then, run controller.py in another terminal
+         ```
+         # Run the controller.py with Ryu manager
+         sudo ryu-manager controller.py --observe-links
+         ```
+   4. Measure the bandwidth
+      - Use the following iPerf commands to measure the bandwidth in the network
+         ```
+         # Run in the iPerf command in Mininet CLI
+         mininet> h1 iperf -s -u -i 1 -p 5566 > ./out/result2 &
+         mininet> h2 iperf -c 10.0.0.1 -u -i 1 -p 5566
+         ```
+      - Leave topo.py in one terminal first
+         ```
+         # Leave the Mininet CLI
+         mininet> exit
+         ```
+      - Then, leave controller.py in another terminal
+         ```
+         # Leave the Mininet CLI
+         Ctrl-z
+         # Make sure “RTNETLINK” is clean indeed
+         $ mn -c
+         ```
 
 ### Discussion
 
 1. Describe the difference between packet-in and packet-out in detail.
+   - packet-in: Transfers the received packets to the controller
+   - packet-out: Transfers the packets forwarded by the controller from the specified port
    
 2. What is “table-miss” in SDN?
+
+   A table-miss flow entry in the flow table can specify how to process unmatched packets: options include dropping them, passing them    to another table or sending them to the controller over the control channel via packet-in messages
    
 3. Why is "`(app_manager.RyuApp)`" adding after the declaration of class in `controller.py`?
    
